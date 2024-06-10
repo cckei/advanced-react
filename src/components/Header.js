@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -33,6 +33,10 @@ const socials = [
 ];
 
 const Header = () => {
+
+  const headerRef = useRef(null);
+  let lastScroll = 0;
+
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -44,8 +48,26 @@ const Header = () => {
     }
   };
 
+  const handleScroll = () => {
+    if(window.scrollY > lastScroll){
+      headerRef.current.style.transform = 'translateY(-200px)'
+    }else{
+      headerRef.current.style.transform = 'translateY(0px)'
+    }
+    lastScroll = window.scrollY;
+  }
+
+  useEffect(()=>{
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
+  },[])
+
   return (
     <Box
+      ref={headerRef}
       position="fixed"
       top={0}
       left={0}
@@ -66,7 +88,7 @@ const Header = () => {
           <nav>
             {
               socials.map((social,index) => 
-                <span key={social.icon} style={{marginRight: '1em'}}>
+                <span key={social.icon + index} style={{marginRight: '1em'}}>
                   <a href={social.url} target="_blank" className='social-link'>
                     <FontAwesomeIcon icon={ social.icon} size="1x" />
                   </a>
