@@ -65,19 +65,19 @@ const Header = () => {
         >
           <nav>
             {
-              socials.map((social, index) => 
+              socials.map((social,index) => 
                 <span key={social.icon} style={{marginRight: '1em'}}>
-                  <link href={social.url} target="_blank" className='social-link'>
+                  <a href={social.url} target="_blank" className='social-link'>
                     <FontAwesomeIcon icon={ social.icon} size="1x" />
-                  </link>
+                  </a>
                 </span>
               )
             }
           </nav>
           <nav>
             <HStack spacing={8}>
-              <link href="" >Projects</link>
-              <link href="" >Contact me</link>
+              <a onClick={handleClick('projects')}>Projects</a>
+              <a onClick={handleClick('contactme')}>Contact me</a>
             </HStack>
           </nav>
         </HStack>
